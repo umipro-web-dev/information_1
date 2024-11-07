@@ -121,8 +121,9 @@ class game:
 			print("軍部の支持を得ることができました。軍部支持率が15%上昇しました。")
 			self.own_party_inside_support += 15
 		else:
-			print("わいろを送ったことが発覚し、メディアからの総叩きにあってしまいました。民衆支持率が10%減少しました。")
+			print("わいろを送ったことが発覚し、メディアからの総叩きにあってしまいました。民衆、軍部支持率が10%減少しました。")
 			self.own_party_outside_support -= 10
+			self.own_party_inside_support -= 10
 		self.action3_num += 1
 	
 	def action4(self):
@@ -211,6 +212,17 @@ class game:
 		location = int(input())
 
 		return location
+	
+	def check_overflow(self):
+		
+		if self.own_party_inside_support > 100:
+			self.own_party_inside_support = 100
+		if self.own_party_outside_support > 100:
+			self.own_party_outside_support = 100
+		if self.own_party_inside_support < 0:
+			self.own_party_inside_support = 0
+		if self.own_party_outside_support < 0:
+			self.own_party_outside_support = 0
 
 
 		
@@ -220,6 +232,7 @@ def main():
 	obj = game()
 	while obj.game_end_flag == False:
 		obj.next_day()
+		obj.check_overflow()
 		sleep(1)
 
 main()
